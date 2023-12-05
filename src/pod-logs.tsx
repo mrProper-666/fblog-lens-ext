@@ -92,8 +92,8 @@ export class PodLogs {
     resourceTitle: string,
     containerName?: string
   ) {
-    // Generate log command with bunyan
-    const cmd = `kubectl logs -f -n ${resourceNs} ${resourceName} -c ${containerName} --tail=300 | fblog`
+    // Generate log command with fblog
+    const cmd = `kubectl logs -f -n ${resourceNs} ${resourceName} -c ${containerName} --tail=500 | fblog -p --main-line-format "{{bold(fixed_size 19 fblog_timestamp)}} {{level_style (uppercase (fixed_size 5 fblog_level))}} [{{fixed_size 15 thread}}] [{{#if reqId}}{{yellow reqId}}{{/if}}] {{#if thread}}{{cyan(fixed_size 42 thread)}}{{/if}} : {{#if fblog_prefix}}{{bold(cyan fblog_prefix)}}{{/if}} {{fblog_message}}"`
 
     // Open new terminal
     this.openTerminal(
